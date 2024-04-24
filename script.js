@@ -4,6 +4,7 @@ let currentRound = 0
 let playerCounter = document.querySelector("#player")
 let computerCounter = document.querySelector("#computer")
 let currentComputerChoice = document.querySelector("#computer-choice-round")
+let finalWinner = document.querySelector("#winner")
 
 
 const btn = document.querySelectorAll(".buttons")
@@ -12,11 +13,10 @@ const btn = document.querySelectorAll(".buttons")
 btn.forEach((button) =>{
     button.addEventListener("click", function(e) {
         let playerSelection = e.target.innerText
-        console.log("Player choice: " + playerSelection)
         let computerSelection = getComputerChoice();
-        console.log("Computer choice: " + computerSelection)
         Round(playerSelection, computerSelection)
-    })})
+        }
+    )})
 
 function getComputerChoice() {
     let computerHand = Math.floor(Math.random() * 3);
@@ -36,63 +36,56 @@ function getComputerChoice() {
 //checks the winner and updates the standings
 function Round(playerSelection, computerSelection) {
     currentRound++
-    if (currentRound === 3) {
-        checkWinner()
-    }
-        document.querySelector("#current-rounds").innerHTML = currentRound
-        if (playerSelection === "Rock") {
-            if (computerSelection === "rock") {
-                tie();
-            } else if (computerSelection === "scissors") {
-                lost();    
-            } else {
-            won();
-            }
-        } else if (playerSelection === "Paper") {
-            if (computerSelection === "paper") {
-                tie();
-            } else if (computerSelection === "rock") {
-                won();     
-            } else {
-                lost();
-            }
-        } else if (playerSelection === "Scissors") {
-            if (computerSelection === "scissors") {
-                tie();
-            } else if (computerSelection === "paper") {
-                won();     
-            } else {
-                lost();
-            }
-        
-        }}
+
+    document.querySelector("#current-rounds").innerHTML = currentRound
+    if (playerSelection === "Rock") {
+        if (computerSelection === "rock") {
+            tie();
+        } else if (computerSelection === "scissors") {
+            won();    
+        } else {
+            lost();
+        }
+    } else if (playerSelection === "Paper") {
+        if (computerSelection === "paper") {
+            tie();
+        } else if (computerSelection === "rock") {
+            won();     
+        } else {
+            lost();
+        }
+    } else if (playerSelection === "Scissors") {
+        if (computerSelection === "scissors") {
+            tie();
+        } else if (computerSelection === "paper") {
+            won();     
+        } else {
+            lost();
+        }
+    
+    }}
 
 function won() {
     playerScore++
     document.querySelector("#player").innerHTML = playerScore
+    if (currentRound === 5) checkWinner()
 }
 
 function lost() {
     computerScore++
     document.querySelector("#computer").innerHTML = computerScore
+    if (currentRound === 5) checkWinner()
 }
 
 function tie() {
+    if (currentRound === 5) checkWinner()
 }
 
 function checkWinner() {
     if (playerScore > computerScore) {
-        console.log("you win!");
+        finalWinner.innerText = "You won!"
     } else if (playerScore < computerScore) {
-        console.log("you lose!")
-    } else {
-        console.log("Tied!")
+        finalWinner.innerText = "You lost..."
+    
     } 
 }
-
-
-/* 
-
-
-
-playGame() */
